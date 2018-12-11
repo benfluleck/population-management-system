@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import uuidv4 from 'uuidv4';
 
 import User from '../models/user'
 
@@ -11,7 +10,8 @@ export const signup = async (req, res) => {
     } = req.body;
 
 
-    const userExists = await User.query().findOne({ email })
+    const userExists = await User.findOne({ email });
+
 
     if (userExists) {
       return res.status(409).json({ status: 'error', message: "This email is already in use" });
@@ -33,20 +33,16 @@ export const signup = async (req, res) => {
           throw error;
         }
         data.password = hash;
-        const newUser = {
-          id: uuidv4(),
+        const newUser = new User({
           firstName: data.firstName.trim(),
           lastName: data.lastName.trim(),
           email: data.email.trim(),
           password: data.password,
-        };
+        });
 
-        const createdUser = await User
-          .query()
-          .allowInsert('[id, firstName, lastName, email, password]')
-          .insert(newUser)
+        const createdUser = await newUser.save();
 
-        const { password, ...response } = createdUser
+        const { _doc: { password, __v, ...response } } = createdUser
 
         res.status(201).json({ status: 'success', message: 'User Created Successfully', data: response });
 
@@ -59,25 +55,26 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res) => {
   try {
-  const { email, password } = req.body;
+    const { email, password } = req.body;
 
-  const userExists = await User.query().findOne({ email })
-  if (!userExists) {
-    return res.status(404).json({ status: 'error', message: "This user does not exist" });
-  }
+    const userExists = await User.findOne({ email })
 
-  const isMatch = await bcrypt.compare(password, userExists.password)
+    if (!userExists) {
+      return res.status(404).json({ status: 'error', message: "This user does not exist" });
+    }
 
-  if (isMatch) {
-    res.json({
-      status: 'success', message: `Welcome ${userExists.firstName}`,
-      data: {
-        id: userExists.id
-      }
-    });
-  } else {
-    return res.status(401).json({ status: 'error', message: 'Wrong Credentials' });
-  }
+    const isMatch = await bcrypt.compare(password, userExists.password)
+
+    if (isMatch) {
+      res.json({
+        status: 'success', message: `Welcome ${userExists.firstName}`,
+        data: {
+          id: userExists.id
+        }
+      });
+    } else {
+      return res.status(401).json({ status: 'error', message: 'Wrong Credentials' });
+    }
   } catch {
     res.status(400).json({ status: 'error', message: error.message })
   }
