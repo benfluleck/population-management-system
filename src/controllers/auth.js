@@ -42,7 +42,7 @@ export const signup = async (req, res) => {
 
         const createdUser = await newUser.save();
 
-        const { _doc: { password, __v, ...response } } = createdUser
+        const { _doc: { password, ...response } } = createdUser
 
         res.status(201).json({ status: 'success', message: 'User Created Successfully', data: response });
 
@@ -66,6 +66,8 @@ export const signin = async (req, res) => {
     const isMatch = await bcrypt.compare(password, userExists.password)
 
     if (isMatch) {
+      req.session && (req.session.userId = userExists.id)
+
       res.json({
         status: 'success', message: `Welcome ${userExists.firstName}`,
         data: {
