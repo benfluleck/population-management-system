@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 
 app.listen(port,
-  () => console.log(`Welcome to Datanomics Hotel Application, listening on ${port}`)
+  () => console.log(`Welcome to Population Management Application, listening on ${port}`)
 )
   .on('error', (err) => {
     if (err.syscall !== 'listen') {

@@ -1,15 +1,12 @@
-import Model from './config';
+import mongoose from 'mongoose';
 
-class User extends Model {
-  static get tableName() {
-    return 'users';
-  }
+const Schema = mongoose.Schema;
 
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
-  }
+const userSchema = new Schema({
+  firstName: String,
+  lastName: String,
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+});
 
-}
-
-
-export default User;
+export default mongoose.model('User', userSchema);
