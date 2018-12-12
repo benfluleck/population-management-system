@@ -6,9 +6,12 @@
   "scripts": {
     "start:dev": "babel-watch src/index.js",
     "build": "babel src --out-dir dist",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha src/tests/index.test.js --require @babel/register --exit",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha src/tests/index.test.js  --timeout 10000 --require @babel/register --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "server": "node dist/index.js"
+  },
+  "nyc": {
+    "exclude":"src/index.js"
   },
   "dependencies": {
     "@babel/cli": "^7.1.5",

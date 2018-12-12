@@ -23,10 +23,11 @@ mongoose.connect(config.url, {
   useNewUrlParser: true
 });
 
+
 mongoose.set('useFindAndModify', false);
 
-mongoose.connection.once('open', () => {
-  console.log('Connection to DB Initiated')
+export const mongooseConnection = mongoose.connection.once('open', () => {
+  console.log('Connection to DB Initiated');
 });
 
 isProduction && app.set('trust proxy', 1);
@@ -59,5 +60,6 @@ app.get('/', (req, res) => {
 app.all('*', (req, res) => {
   res.status(404).send('Route Not Found');
 });
+
 
 export default app;
