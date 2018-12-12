@@ -15,7 +15,7 @@ export const addLocation = async (req, res) => {
 
 
     if (!CheckNumber(malePopulation) || !CheckNumber(femalePopulation)) {
-      return res.status(400).json({ status: 'error', message: "Both Population should be numbers" });
+      return res.status(400).json({ status: 'error', message: "Both Population inputs should be numbers" });
     }
 
     const totalPopulation = calculateTotalPopulation(malePopulation, femalePopulation);
@@ -58,7 +58,7 @@ export const addLocation = async (req, res) => {
 
 }
 
-
+/** Get location with childreen */
 export const getLocations = async (req, res) => {
   try {
     const allLocations = await Location.find({})
@@ -96,6 +96,7 @@ export const getLocation = async (req, res) => {
   }
 }
 
+
 export const updateLocation = async (req, res) => {
   try {
     const { locationId } = req.params;
@@ -124,10 +125,6 @@ export const updateLocation = async (req, res) => {
       parentLocation, totalPopulation,
     }
 
-    if (!locationExists.parentLocation) {
-      return res.status(403).json({ status: 'error', message: "You cannot update root locations" });
-    }
-
     if (parentLocation) {
       const parentLocationExists = await Location.findOne({ _id: parentLocation })
 
@@ -139,7 +136,7 @@ export const updateLocation = async (req, res) => {
     const updatedLocation = await Location.findByIdAndUpdate({ _id: locationId }, { $set: data }, { new: true })
 
 
-    res.status(200).json({ status: 'success', message: 'Location Successfully Updated, Please update the Root', data: updatedLocation });
+    res.status(200).json({ status: 'success', message: 'Location Successfully Updated, Please update the Root Location, if it applies', data: updatedLocation });
 
   }
   catch (error) {
@@ -154,6 +151,10 @@ export const deleteLocation = async (req, res) => {
 
     const locationExists = await Location.findById({ _id: locationId })
 
+    if (!locationExists) {
+      return res.status(404).json({ status: 'error', message: "This Location does not exist" });
+    }
+    
     if (!locationExists.parentLocation) {
       return res.status(403).json({ status: 'error', message: "You cannot delete a root locations" });
     }

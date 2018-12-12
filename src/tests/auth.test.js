@@ -3,15 +3,12 @@ import chaiHttp from 'chai-http';
 import faker from 'faker';
 
 import app from '../index';
+import { mongooseConnection } from '../server';
+import { userDetails } from './fixtures/userData';
+
 
 chai.use(chaiHttp);
 
-const userDetails = {
-  password: 'boooboo',
-  firstName: 'Benny',
-  lastName: 'Ogidan',
-  email: 'benny.ogidan@hotmail.com',
-}
 
 describe('Authentication', () => {
   it(
@@ -25,6 +22,7 @@ describe('Authentication', () => {
           ...userDetails
         })
         .then((res) => {
+          expect(res.body.message).to.equal('User Created Successfully');
           expect(res.status)
             .to
             .equal(201);
@@ -44,9 +42,7 @@ describe('Authentication', () => {
         firstName: faker
           .name
           .firstName(),
-        lastName: faker
-          .name
-          .lastName(),
+        lastName: 'Shola',
         password: 'password',
         email: ''
       })
@@ -203,5 +199,6 @@ describe('Authentication', () => {
         done();
       });
   });
+
 });
 

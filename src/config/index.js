@@ -8,8 +8,14 @@ const env = process.env.NODE_ENV || 'development';
 const configEnvironment = {
   development: {
     url: process.env.DEVELOPMENT_URL,
+  },
+  test: {
+    url: process.env.TEST_URL || 'localhost'
+  },
+  production: {
+    url: process.env.PRODUCTION_URL
   }
 };
 
 
-module.exports = { ...configEnvironment[env] };
+export default { ...configEnvironment[env] };
