@@ -13,9 +13,12 @@ export const addLocation = async (req, res) => {
       parentLocation,
     } = req.body;
 
+    if(!locationName) {
+      return res.status(400).json({ status: 'error', message: "Please enter a locationName" });
+    }
 
     if (!CheckNumber(malePopulation) || !CheckNumber(femalePopulation)) {
-      return res.status(400).json({ status: 'error', message: "Both Population inputs should be numbers" });
+      return res.status(400).json({ status: 'error', message: "Both malePopulation and femalePopulation should be numbers" });
     }
 
     const totalPopulation = calculateTotalPopulation(malePopulation, femalePopulation);

@@ -5,10 +5,12 @@
   "license": "MIT",
   "scripts": {
     "start:dev": "babel-watch src/index.js",
+    "start:prod": "NODE_ENV=production && node dist/index.js",
     "build": "babel src --out-dir dist",
     "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha src/tests/index.test.js  --timeout 10000 --require @babel/register --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "server": "node dist/index.js"
+    "server": "node dist/index.js",
+    "heroku-postbuild": "yarn build"
   },
   "nyc": {
     "exclude":"src/index.js"

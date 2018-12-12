@@ -114,7 +114,7 @@ describe('Location', () => {
                 locationName: 'Ohio',
               })
               .then((res) => {
-                expect(res.body.message).to.equal('Both Population inputs should be numbers');
+                expect(res.body.message).to.equal('Both malePopulation and femalePopulation should be numbers');
                 expect(res.status)
                   .to
                   .equal(400);
