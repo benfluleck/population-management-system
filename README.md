@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.com/benfluleck/population-management-system.svg?branch=develop)](https://travis-ci.com/benfluleck/population-management-system)
-[![Coverage Status](https://coveralls.io/repos/github/benfluleck/population-management-system/badge.svg?branch=chore-implement-tests-for-application)](https://coveralls.io/github/benfluleck/population-management-system?branch=chore-implement-tests-for-application)
+[![Coverage Status](https://coveralls.io/repos/github/benfluleck/population-management-system/badge.svg?branch=chore-implement-tests-for-application)](https://coveralls.io/github/benfluleck/population-management-system?branch=chore-implement-tests-for-application) [![Greenkeeper badge](https://badges.greenkeeper.io/benfluleck/population-management-system.svg)](https://greenkeeper.io/)
 
 
 
